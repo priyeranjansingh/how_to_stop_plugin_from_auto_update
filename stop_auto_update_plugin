@@ -1,0 +1,12 @@
+/*
+* need to add this piece of code in function.php in your theme file or child theme file
+* here is default plugin akismet, you can replace with plugin of your choice for whom you want to stop the auto update options
+*/
+
+remove_action('load-update-core.php','wp_update_plugins');  // remove auto update
+add_filter('pre_site_transient_update_plugins','__return_null'); // adding code for which plugin you want to stop
+function stop_auto_plugin_updates( $value ) {
+    unset( $value->response['akismet/akismet.php'] );
+    return $value;
+}
+add_filter( 'site_transient_update_plugins', 'stop_auto_plugin_updates' );
